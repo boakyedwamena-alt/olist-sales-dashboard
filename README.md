@@ -65,7 +65,7 @@ Raw files needed a few fixes before they were dashboard-ready:
 
 Figures cover Jan 2017 to Aug 2018. Sales are in Brazilian reais and are the sum of item price.
 
-- **Revenue grew steadily, not explosively.** Monthly sales climbed from ~100K (Jan 2017) to a consistent ~850K-1,000K/month by mid-2018, which is sustained growth rather than a single breakout period.
+- **Sales grew fast in 2017, then levelled off.** Monthly sales rose from about 100K (Jan 2017) to a peak of about 1,000K in Nov 2017, then ranged between roughly 850K and 1,000K through Aug 2018.
 - **Late delivery is linked to much worse reviews.** 6.8% of delivered orders (6,532 of 96,204) arrived after the estimated date. They average 2.27 stars, against 4.29 for orders that arrived on time or early. A further 2,888 orders (2.9%) have no delivery date and average 1.77 stars.
 - **Most delivery times are reasonable, with a long tail.** Most orders arrive within 5-15 days (peak around 8-10 days), but a meaningful share stretch out toward 30-60 days. Investigating what drives the slowest deliveries (regions, carriers or sellers) is the clearest operational opportunity.
 - **Sales are spread across many categories.** The top two (health_beauty and watches_gifts) are about 9% of sales each, and the top five about 40%. No single category dominates.
@@ -85,7 +85,7 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 | Sales are spread across many categories | The top two categories are about 9% each; the top five about 40% | Prioritise stock and seller quality in the leading categories without depending on any single one |
 | Reviews are strong overall, with a few weaker spots | Among categories with at least 100 orders, scores range from 3.63 (office_furniture) to 4.46 (books_general_interest); products with no listed category (2,210 orders) score 3.19 | Investigate the weaker categories and the listings with no category |
 | Very few customers come back | 3.1% of customers placed more than one order | Test repeat-purchase incentives, since growth currently depends on new customers |
-| Growth has been steady | Monthly sales rose from about 100K (Jan 2017) to 850-1,000K (mid-2018) | Plan inventory around the seasonal peaks visible in the trend chart |
+| Growth levelled off in 2018 | Monthly sales rose from about 100K (Jan 2017) to about 1,000K (Nov 2017) and have stayed at roughly 850K-1,000K since; only 3.1% of customers return | Look at acquisition and repeat purchases to restart growth, and plan inventory around the Nov 2017 spike |
 
 **Limits:** two years of data from one marketplace; "late" counts calendar days after the estimated date; review averages are per review; category order counts overlap because one order can contain several categories; statuses with only a few orders have unreliable averages; the repeat-customer share covers all dates; reviews show association with delivery, not cause.
 
