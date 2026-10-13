@@ -44,22 +44,31 @@ Raw files needed a few fixes before they were dashboard-ready:
 | `product_category_name_translation.csv` had a hidden BOM character in its header (`\ufeffproduct_category_name`), silently breaking the join to the Products table even though the names looked identical on screen | Re-saved as plain `CSV (Comma delimited)` in Excel (not "CSV UTF-8," which actually adds the BOM back) — see `data/product_category_name_translation_fixed.csv` |
 | `olist_geolocation_dataset.csv` had ~1,000,163 rows but only ~19,015 unique zip codes (up to 50+ duplicate lat/long rows per zip) — connecting it directly would have multiplied order rows | Aggregated to one row per zip code using an Excel PivotTable (lat/long averaged per zip), with city/state added back via `VLOOKUP` since those text fields can't be averaged — see `data/olist_geolocation_aggregated.csv` |
 | Blank `product_category_name` on a small number of products | Calculated field: `IFNULL([Product Category Name English], "Unknown")` |
+| One category name in the source data is misspelled (`costruction_tools_tools`) | Corrected for chart labels with the `Category (Display)` calculated field; the underlying data is unchanged |
 | Null `order_delivered_customer_date` for canceled/undelivered orders | Kept (expected, not an error) — flagged with a calculated `Is Delivered` field rather than dropped |
 | Order count differs depending on which table's `Order ID` you count: 99,441 total orders placed vs. 98,666 orders that contain at least one item (the rest were canceled before checkout) | Documented both numbers; dashboard KPI uses total orders placed, within the Jan 2017–Aug 2018 window (99,092) |
 | 1 order with no delivery date at all (never delivered) | Filtered out of the delivery-time histogram specifically; included everywhere else |
-| Product category charts were hard to scan with 70+ categories, and a top-rated ranking was dominated by tiny categories (one had only 12 orders) | The sales chart shows the Top 10 by revenue; the review chart shows only categories with at least 100 orders. Products with no listed category are grouped as "Unknown" (via the `Category (Clean)` field) rather than shown as blank/NULL |
 | 8 orders have status "delivered" but no delivery date | Left in the "Not delivered" group for the delivery analysis, which groups by date, not status; too few to affect results |
+| Product category charts were hard to scan with 70+ categories, and a top-rated ranking was dominated by tiny categories (one had only 12 orders) | The sales chart shows the Top 10 by revenue; the review chart shows only categories with at least 100 orders. Products with no listed category are grouped as "Unknown" (via the `Category (Clean)` field) rather than shown as blank/NULL |
 | Sales trend line looked distorted (only 2-3 points, sharp misleading jump) because late 2016 was a sparse test-launch period with very few orders; the last month (Sept 2018) was also a partial/incomplete month of data collection, showing a misleading sharp drop | Filtered the trend chart to **Jan 2017 – Aug 2018** using a continuous, month-level date field (`DATETRUNC('month', ...)`) instead of Year, so the line reflects real, complete month-by-month activity |
 | Checked `customer_city` for the same accent/spelling inconsistencies found in `geolocation_city` (e.g. "São Paulo" vs "Sao Paulo") before using it in a chart | Confirmed clean — no spelling variants found, so it was used as-is with no fix needed |
+| `customer_id` is generated per order, so it can't identify repeat buyers | Used `customer_unique_id` to measure repeat purchases (`Orders per Customer` and `Repeat Customer Rate` fields); 3.1% of customers placed more than one order |
+| Payments and reviews can have several rows per order, which would inflate totals if summed | Sales = sum of item `price` from Order Items (excludes freight); relationships keep payments and reviews at their own grain |
+| Delivery-time outliers of several months stretched the histogram | Capped the histogram at 60 days with 2-day buckets; outliers remain in all other views |
 
 ## Calculated fields
 
 - **Delivery Time (Days)** — `DATEDIFF('day', [order_purchase_timestamp], [order_delivered_customer_date])`
 - **Delivery Delay (Days)** — `DATEDIFF('day', [order_estimated_delivery_date], [order_delivered_customer_date])`
-- **Is Delivered** — `IIF(ISNULL([order_delivered_customer_date]), "Not Delivered", "Delivered")`
-- **Review Sentiment** — buckets review score into Positive (4–5) / Neutral (3) / Negative (1–2)
+- **Is Delivered** — `IIF(ISNULL([Order Delivered Customer Date]), "Not Delivered", "Delivered")`
+- **Is Late** — `IF ISNULL([Delivery Delay (Days)]) THEN NULL ELSEIF [Delivery Delay (Days)] > 0 THEN 1 ELSE 0 END` (averaging this field gives the share of delivered orders that arrived late; undelivered orders are NULL, so they are excluded)
+- **Delivery Status** — `IF ISNULL([Delivery Delay (Days)]) THEN "Not delivered" ELSEIF [Delivery Delay (Days)] > 0 THEN "Late" ELSE "On time or early" END` (used to compare review scores across late, on-time and undelivered orders)
+- **Review Sentiment** — `IF [Review Score] >= 4 THEN "Positive" ELSEIF [Review Score] = 3 THEN "Neutral" ELSE "Negative" END`
 - **Order Year-Month** — `DATETRUNC('month', [order_purchase_timestamp])`
-- **Category (Clean)** — fills blank product categories with "Unknown"
+- **Category (Clean)** — `IFNULL([Product Category Name English], "Unknown")`
+- **Category (Display)** — `REPLACE([Category (Clean)], "costruction", "construction")` (fixes a misspelling in the source data for chart labels)
+- **Orders per Customer** — `{FIXED [Customer Unique Id] : COUNTD([Order Id])}`
+- **Repeat Customer Rate** — `COUNTD(IF [Orders per Customer] > 1 THEN [Customer Unique Id] END) / COUNTD([Customer Unique Id])` (3.1% of customers placed more than one order)
 
 ## Key insights
 
