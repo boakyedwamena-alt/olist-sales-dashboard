@@ -18,7 +18,7 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 - **Sales by product category:** top 10 categories by sales (bar chart)
 - **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
 - **Sales by state:** filled map of Brazilian states shaded by sales, from R$ 7,717 to R$ 5,188,099
-- **Filters:** a date range (Jan 2017-Aug 2018) applied behind the scenes to all sheets, plus an interactive Customer State filter so viewers can drill into a specific region
+- **Filters:** a date range (Jan 2017-Aug 2018) applied to every sheet except the Repeat Customer Rate tile, plus an interactive Customer State filter so viewers can drill into a specific region
 
 ---
 
