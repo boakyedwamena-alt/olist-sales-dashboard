@@ -7,6 +7,18 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 
 ![dashboard screenshot](screenshot.png)
 
+## Dashboard contents
+
+- **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 except the repeat rate, which covers all dates
+- **Orders, review and delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
+- **Sales over time:** monthly sales (line chart), limited to Jan 2017-Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
+- **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days so outliers don't skew the view
+- **Average review score by category (100+ orders):** scrollable table of categories ranked by average review score, with the number of orders alongside each
+- **Sales by product category:** top 10 categories by sales (bar chart)
+- **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
+- **Sales by state:** filled map of Brazilian states shaded by sales, from R$ 7,717 to R$ 5,188,099
+- **Filters:** a date range (Jan 2017-Aug 2018) applied behind the scenes to all sheets, plus an interactive Customer State filter so viewers can drill into a specific region
+
 ---
 
 ## Business question
@@ -99,18 +111,6 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 | Growth levelled off in 2018 | Monthly sales rose from about 100K (Jan 2017) to about 1,000K (Nov 2017) and have stayed at roughly 850K-1,000K since; only 3.1% of customers return | Look at acquisition and repeat purchases to restart growth, and plan inventory around the Nov 2017 spike |
 
 **Limits:** two years of data from one marketplace; "late" counts calendar days after the estimated date; review averages are per review; category order counts overlap because one order can contain several categories; statuses with only a few orders have unreliable averages; the repeat-customer share covers all dates; reviews show association with delivery, not cause.
-
-## Dashboard contents
-
-- **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 except the repeat rate, which covers all dates
-- **Orders, review and delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
-- **Sales over time:** monthly sales (line chart), limited to Jan 2017-Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
-- **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days so outliers don't skew the view
-- **Average review score by category (100+ orders):** scrollable table of categories ranked by average review score, with the number of orders alongside each
-- **Sales by product category:** top 10 categories by sales (bar chart)
-- **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
-- **Sales by state:** filled map of Brazilian states shaded by sales, from R$ 7,717 to R$ 5,188,099
-- **Filters:** a date range (Jan 2017-Aug 2018) applied behind the scenes to all sheets, plus an interactive Customer State filter so viewers can drill into a specific region
 
 ## Repo structure
 
