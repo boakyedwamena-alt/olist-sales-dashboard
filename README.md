@@ -3,6 +3,7 @@
 An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazilian e-commerce marketplace, covering sales trends, product categories, delivery performance, customer reviews, and geographic distribution.
 
 **🔗 Live dashboard:** https://public.tableau.com/views/OlistSalesPerformancceDashboard/OlistSalesPerformanceDashboard?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+
 **📸 Preview:**
 
 ![dashboard screenshot](screenshot.png)
@@ -55,13 +56,13 @@ Raw files needed a few fixes before they were dashboard-ready:
 |---|---|
 | `product_category_name_translation.csv` had a hidden BOM character in its header (`\ufeffproduct_category_name`), silently breaking the join to the Products table even though the names looked identical on screen | Re-saved as plain `CSV (Comma delimited)` in Excel (not "CSV UTF-8," which actually adds the BOM back) — see `data/product_category_name_translation_fixed.csv` |
 | `olist_geolocation_dataset.csv` had ~1,000,163 rows but only ~19,015 unique zip codes (up to 50+ duplicate lat/long rows per zip) — connecting it directly would have multiplied order rows | Aggregated to one row per zip code using an Excel PivotTable (lat/long averaged per zip), with city/state added back via `VLOOKUP` since those text fields can't be averaged — see `data/olist_geolocation_aggregated.csv` |
-| Blank `product_category_name` on a small number of products | Calculated field: `IFNULL([Product Category Name English], "Unknown")` |
+| Blank `product_category_name` on a small number of products | Grouped as "Unknown" (see `Category (Clean)` under Calculated fields) |
 | One category name in the source data is misspelled (`costruction_tools_tools`) | Corrected for chart labels with the `Category (Display)` calculated field; the underlying data is unchanged |
-| Null `order_delivered_customer_date` for canceled/undelivered orders | Kept (expected, not an error) — flagged with a calculated `Is Delivered` field rather than dropped |
+| Null `order_delivered_customer_date` for canceled/undelivered orders | Kept (expected, not an error) — flagged with the calculated `Is Delivered` and `Delivery Status` fields rather than dropped |
 | Order count differs depending on which table's `Order ID` you count: 99,441 total orders placed vs. 98,666 orders that contain at least one item (the rest were canceled before checkout) | Documented both numbers; dashboard KPI uses total orders placed, within the Jan 2017–Aug 2018 window (99,092) |
 | The delivery-time histogram showed a "Null" bar for the 2,888 orders with no delivery date, which have no delivery time to plot | Removed that bar from the histogram only; these orders stay in all other views and are flagged "Not delivered" by `Delivery Status` |
 | 8 orders have status "delivered" but no delivery date | Left in the "Not delivered" group for the delivery analysis, which groups by date, not status; too few to affect results |
-| Product category charts were hard to scan with 70+ categories, and a top-rated ranking was dominated by tiny categories (one had only 12 orders) | The sales chart shows the Top 10 by revenue; the review chart shows only categories with at least 100 orders. Products with no listed category are grouped as "Unknown" (via the `Category (Clean)` field) rather than shown as blank/NULL |
+| Product category charts were hard to scan with 70+ categories, and a top-rated ranking was dominated by tiny categories (one had only 12 orders) | The sales chart shows the Top 10 by revenue; the review table shows only categories with at least 100 orders |
 | Sales trend line looked distorted (only 2-3 points, sharp misleading jump) because late 2016 was a sparse test-launch period with very few orders; the last month (Sept 2018) was also a partial/incomplete month of data collection, showing a misleading sharp drop | Filtered the trend chart to **Jan 2017 – Aug 2018** using a continuous, month-level date field (`DATETRUNC('month', ...)`) instead of Year, so the line reflects real, complete month-by-month activity |
 | Checked `customer_city` for the same accent/spelling inconsistencies found in `geolocation_city` (e.g. "São Paulo" vs "Sao Paulo") before using it in a chart | Confirmed clean — no spelling variants found, so it was used as-is with no fix needed |
 | `customer_id` is generated per order, so it can't identify repeat buyers | Used `customer_unique_id` to measure repeat purchases (`Orders per Customer` and `Repeat Customer Rate` fields); 3.1% of customers placed more than one order |
@@ -103,7 +104,7 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 | Insight | Evidence | Suggested action |
 |---|---|---|
 | Late delivery goes with much worse reviews | 6.8% of delivered orders arrived after the estimated date; they average 2.27 stars against 4.29 for orders on time or early | Make late delivery the first thing to fix: find the regions, sellers or carriers behind the slowest orders, and tighten the estimated delivery dates |
-| Orders that never arrive are rated lowest | 2,888 orders (2.9%) have no delivery date and average 1.77 stars. By status: 1,097 shipped with no delivery recorded (38%), 602 unavailable (21%), 579 cancelled (20%) and 602 stuck before shipping (21%) | Investigate the shipped-but-undelivered orders (lost, or still in transit when the data was extracted?) and flag out-of-stock items before checkout |
+| Orders that never arrive are rated lowest | 2,888 orders (2.9%) have no delivery date and average 1.77 stars. By status: 1,097 shipped with no delivery recorded (38%), 602 unavailable (21%), 579 cancelled (20%), 602 stuck before shipping (21%) and 8 marked delivered with no date (0.3%) | Investigate the shipped-but-undelivered orders (lost, or still in transit when the data was extracted?) and flag out-of-stock items before checkout |
 | Sales come mostly from the Southeast | São Paulo state is about 38% of sales; with Rio de Janeiro and Minas Gerais about 63% | Keep seller coverage and delivery performance strongest in these states, and test whether other regions can be grown |
 | Sales are spread across many categories | The top two categories are about 9% each; the top five about 40% | Prioritise stock and seller quality in the leading categories without depending on any single one |
 | Reviews are strong overall, with a few weaker spots | Among categories with at least 100 orders, scores range from 3.63 (office_furniture) to 4.46 (books_general_interest); products with no listed category (2,210 orders) score 3.19 | Investigate the weaker categories and the listings with no category |
