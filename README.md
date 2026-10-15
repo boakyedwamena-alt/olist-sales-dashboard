@@ -100,14 +100,15 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 
 ## Dashboard contents
 
-- **KPI tiles:** Total Sales (13,541,713), Total Orders (99,092), Average Review Score (4.1) — all scoped to Jan 2017–Aug 2018
-- **Sales trend:** monthly revenue over time (line chart), filtered to Jan 2017–Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
-- **Sales by category:** top product categories by revenue (bar chart)
-- **Review score by category:** average rating for categories with at least 100 orders (bar chart)
-- **Orders by state:** revenue concentration across Brazilian states (filled map)
-- **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days to keep outliers from skewing the view
-- **Sales by city:** top 10 customer cities by revenue (bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
-- **Filters:** a date filter (Jan 2017–Aug 2018) applied across all views, plus an interactive Customer State filter so viewers can drill into a specific region
+- **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 except the repeat rate, which covers all dates
+- **Orders, review and delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
+- **Sales over time:** monthly sales (line chart), limited to Jan 2017-Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
+- **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days so outliers don't skew the view
+- **Average review score by category (100+ orders):** scrollable table of categories ranked by average review score, with the number of orders alongside each
+- **Sales by product category:** top 10 categories by sales (bar chart)
+- **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
+- **Sales by state:** filled map of Brazilian states shaded by sales, from R$ 7,717 to R$ 5,188,099
+- **Filters:** a date range (Jan 2017-Aug 2018) applied behind the scenes to all sheets, plus an interactive Customer State filter so viewers can drill into a specific region
 
 ## Repo structure
 
