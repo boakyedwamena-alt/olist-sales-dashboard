@@ -47,7 +47,7 @@ Raw files needed a few fixes before they were dashboard-ready:
 | One category name in the source data is misspelled (`costruction_tools_tools`) | Corrected for chart labels with the `Category (Display)` calculated field; the underlying data is unchanged |
 | Null `order_delivered_customer_date` for canceled/undelivered orders | Kept (expected, not an error) — flagged with a calculated `Is Delivered` field rather than dropped |
 | Order count differs depending on which table's `Order ID` you count: 99,441 total orders placed vs. 98,666 orders that contain at least one item (the rest were canceled before checkout) | Documented both numbers; dashboard KPI uses total orders placed, within the Jan 2017–Aug 2018 window (99,092) |
-| 1 order with no delivery date at all (never delivered) | Filtered out of the delivery-time histogram specifically; included everywhere else |
+| The delivery-time histogram showed a "Null" bar for the 2,888 orders with no delivery date, which have no delivery time to plot | Removed that bar from the histogram only; these orders stay in all other views and are flagged "Not delivered" by `Delivery Status` |
 | 8 orders have status "delivered" but no delivery date | Left in the "Not delivered" group for the delivery analysis, which groups by date, not status; too few to affect results |
 | Product category charts were hard to scan with 70+ categories, and a top-rated ranking was dominated by tiny categories (one had only 12 orders) | The sales chart shows the Top 10 by revenue; the review chart shows only categories with at least 100 orders. Products with no listed category are grouped as "Unknown" (via the `Category (Clean)` field) rather than shown as blank/NULL |
 | Sales trend line looked distorted (only 2-3 points, sharp misleading jump) because late 2016 was a sparse test-launch period with very few orders; the last month (Sept 2018) was also a partial/incomplete month of data collection, showing a misleading sharp drop | Filtered the trend chart to **Jan 2017 – Aug 2018** using a continuous, month-level date field (`DATETRUNC('month', ...)`) instead of Year, so the line reflects real, complete month-by-month activity |
@@ -55,6 +55,8 @@ Raw files needed a few fixes before they were dashboard-ready:
 | `customer_id` is generated per order, so it can't identify repeat buyers | Used `customer_unique_id` to measure repeat purchases (`Orders per Customer` and `Repeat Customer Rate` fields); 3.1% of customers placed more than one order |
 | Payments and reviews can have several rows per order, which would inflate totals if summed | Sales = sum of item `price` from Order Items (excludes freight); relationships keep payments and reviews at their own grain |
 | Delivery-time outliers of several months stretched the histogram | Capped the histogram at 60 days with 2-day buckets; outliers remain in all other views |
+
+*Note: 2,888 orders in total have no delivery date (canceled, unavailable, stuck before shipping, shipped with no delivery recorded, and the 8 marked "delivered" above). They appear as "Not delivered" in `Delivery Status`, and are hidden from the delivery-time histogram because they have no delivery time.*
 
 ## Calculated fields
 
