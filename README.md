@@ -74,13 +74,13 @@ Raw files needed a few fixes before they were dashboard-ready:
 
 ## Calculated fields
 
-- **Delivery Time (Days)** — `DATEDIFF('day', [order_purchase_timestamp], [order_delivered_customer_date])`
-- **Delivery Delay (Days)** — `DATEDIFF('day', [order_estimated_delivery_date], [order_delivered_customer_date])`
+- **Delivery Time (Days)** — `DATEDIFF('day', [Order Purchase Timestamp], [Order Delivered Customer Date])`
+- **Delivery Delay (Days)** — `DATEDIFF('day', [Order Estimated Delivery Date], [Order Delivered Customer Date])`
 - **Is Delivered** — `IIF(ISNULL([Order Delivered Customer Date]), "Not Delivered", "Delivered")`
 - **Is Late** — `IF ISNULL([Delivery Delay (Days)]) THEN NULL ELSEIF [Delivery Delay (Days)] > 0 THEN 1 ELSE 0 END` (averaging this field gives the share of delivered orders that arrived late; undelivered orders are NULL, so they are excluded)
 - **Delivery Status** — `IF ISNULL([Delivery Delay (Days)]) THEN "Not delivered" ELSEIF [Delivery Delay (Days)] > 0 THEN "Late" ELSE "On time or early" END` (used to compare review scores across late, on-time and undelivered orders)
 - **Review Sentiment** — `IF [Review Score] >= 4 THEN "Positive" ELSEIF [Review Score] = 3 THEN "Neutral" ELSE "Negative" END`
-- **Order Year-Month** — `DATETRUNC('month', [order_purchase_timestamp])`
+- **Order Year-Month** — `DATETRUNC('month', [Order Purchase Timestamp])`
 - **Category (Clean)** — `IFNULL([Product Category Name English], "Unknown")`
 - **Category (Display)** — `REPLACE([Category (Clean)], "costruction", "construction")` (fixes a misspelling in the source data for chart labels)
 - **Orders per Customer** — `{FIXED [Customer Unique Id] : COUNTD([Order Id])}`
