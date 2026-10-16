@@ -10,7 +10,7 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 
 ## Dashboard contents
 
-- **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 except the repeat rate, which covers all dates
+- **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 (the repeat rate counts each customer's orders across all dates)
 - **Orders, review and delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
 - **Sales over time:** monthly sales (line chart), limited to Jan 2017-Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
 - **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days so outliers don't skew the view
@@ -95,7 +95,7 @@ Figures cover Jan 2017 to Aug 2018. Sales are in Brazilian reais and are the sum
 - **Sales are spread across many categories.** The top two (health_beauty and watches_gifts) are about 9% of sales each, and the top five about 40%. No single category dominates.
 - **Sales are concentrated in the Southeast.** São Paulo state is about 38% of sales, and with Rio de Janeiro and Minas Gerais about 63%. At city level, São Paulo generates roughly 1.5-2x the revenue of Rio de Janeiro, the next-closest city.
 - **Reviews are strong overall, with a few weaker spots.** Among categories with at least 100 orders, average scores range from 3.63 (office_furniture, 1,267 orders) to 4.46 (books_general_interest, 511 orders), against an overall average of 4.1. The best-rated categories are small niche ones (books, food and drink), while the largest, bed_bath_table, scores 3.97. Products with no listed category (2,210 orders) score lower at 3.19.
-- **Very few customers come back.** Only 3.1% of customers placed more than one order (identified by customer_unique_id, across all dates), so growth has come mainly from new customers.
+- **Very few customers come back.** Only 3.1% of customers who ordered in this period placed more than one order (identified by customer_unique_id, counting their orders across all dates), so growth has come mainly from new customers.
 
 ## Business insights and recommendations
 
@@ -111,7 +111,7 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 | Very few customers come back | 3.1% of customers placed more than one order | Test repeat-purchase incentives, since growth currently depends on new customers |
 | Growth levelled off in 2018 | Monthly sales rose from about 100K (Jan 2017) to about 1,000K (Nov 2017) and have stayed at roughly 850K-1,000K since; only 3.1% of customers return | Look at acquisition and repeat purchases to restart growth, and plan inventory around the Nov 2017 spike |
 
-**Limits:** two years of data from one marketplace; "late" counts calendar days after the estimated date; review averages are per review; category order counts overlap because one order can contain several categories; statuses with only a few orders have unreliable averages; the repeat-customer share covers all dates; reviews show association with delivery, not cause.
+**Limits:** two years of data from one marketplace; "late" counts calendar days after the estimated date; review averages are per review; category order counts overlap because one order can contain several categories; statuses with only a few orders have unreliable averages; the repeat-customer share counts each customer's orders across all dates but only includes customers who ordered in Jan 2017–Aug 2018; reviews show association with delivery, not cause.
 
 ## Repo structure
 
