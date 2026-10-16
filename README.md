@@ -2,8 +2,7 @@
 
 An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazilian e-commerce marketplace, covering sales trends, product categories, delivery performance, customer reviews, and geographic distribution.
 
-**🔗 Live dashboard:** 
-*Tableau · [Live dashboard](https://public.tableau.com/views/OlistSalesPerformancceDashboard/OlistSalesPerformanceDashboard?:language=en-GB&:display_count=n&:origin=viz_share_link)*
+**🔗 Live dashboard:** [View on Tableau Public](https://public.tableau.com/views/OlistSalesPerformancceDashboard/OlistSalesPerformanceDashboard)
 
 **📸 Preview:**
 
