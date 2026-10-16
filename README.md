@@ -11,14 +11,15 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 ## Dashboard contents
 
 - **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 (the repeat rate counts each customer's orders across all dates)
-- **Orders, review and delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
 - **Sales over time:** monthly sales (line chart), limited to Jan 2017-Aug 2018 to exclude the sparse late-2016 test-launch period and the incomplete final month
+- **Average review score by delivery status:** average review score for late, on-time-or-early and undelivered orders (bar chart), labelled with the number of orders in each group (6,532 / 89,672 / 2,888)
+- **Undelivered orders by status:** the 2,888 orders with no delivery date, grouped by order status (bar chart)
 - **Delivery time distribution:** histogram of delivery times in 2-day buckets, capped at 60 days so outliers don't skew the view
 - **Average review score by category (100+ orders):** scrollable table of categories ranked by average review score, with the number of orders alongside each
-- **Sales by product category:** top 10 categories by sales (bar chart)
-- **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown — a city-level dropdown would have ~2,878 entries)
+- **Top 10 product categories by sales:** bar chart
+- **Sales by city:** customer cities ranked by sales (scrollable bar chart); clicking a bar filters the rest of the dashboard to that city (via a dashboard filter action, rather than a separate dropdown, since a city-level dropdown would have ~2,878 entries)
 - **Sales by state:** filled map of Brazilian states shaded by sales, from R$ 7,717 to R$ 5,188,099
-- **Filters:** a date range (Jan 2017-Aug 2018) applied to every sheet except the Repeat Customer Rate tile, plus an interactive Customer State filter so viewers can drill into a specific region
+- **Filters:** a date range (Jan 2017-Aug 2018) applied behind the scenes to all sheets, plus an interactive Customer State filter so viewers can drill into a specific region
 
 ---
 
@@ -84,6 +85,7 @@ Raw files needed a few fixes before they were dashboard-ready:
 - **Category (Display)** — `REPLACE([Category (Clean)], "costruction", "construction")` (fixes a misspelling in the source data for chart labels)
 - **Orders per Customer** — `{FIXED [Customer Unique Id] : COUNTD([Order Id])}`
 - **Repeat Customer Rate** — `COUNTD(IF [Orders per Customer] > 1 THEN [Customer Unique Id] END) / COUNTD([Customer Unique Id])` (3.1% of customers placed more than one order)
+- **Undelivered Status Group** — `IF [Order Status] IN ("approved","created","invoiced","processing") THEN "Stuck before shipping" ELSE [Order Status] END` (groups the four early-stage statuses for the undelivered-orders chart)
 
 ## Key insights
 
@@ -104,7 +106,7 @@ What the findings suggest for the marketplace. These are hypotheses to test, not
 | Insight | Evidence | Suggested action |
 |---|---|---|
 | Late delivery goes with much worse reviews | 6.8% of delivered orders arrived after the estimated date; they average 2.27 stars against 4.29 for orders on time or early | Make late delivery the first thing to fix: find the regions, sellers or carriers behind the slowest orders, and tighten the estimated delivery dates |
-| Orders that never arrive are rated lowest | 2,888 orders (2.9%) have no delivery date and average 1.77 stars. By status: 1,097 shipped with no delivery recorded (38%), 602 unavailable (21%), 579 cancelled (20%), 602 stuck before shipping (21%) and 8 marked delivered with no date (0.3%) | Investigate the shipped-but-undelivered orders (lost, or still in transit when the data was extracted?) and flag out-of-stock items before checkout |
+| Orders that never arrive are rated lowest | 2,888 orders (2.9%) have no delivery date and average 1.77 stars. By status: 1,097 shipped with no delivery recorded (38%), 602 unavailable (21%), 602 stuck before shipping, meaning approved, created, invoiced or processing (21%), 579 canceled (20%) and 8 marked delivered with no date (0.3%) | Investigate the shipped-but-undelivered orders (lost, or still in transit when the data was extracted?) and flag out-of-stock items before checkout |
 | Sales come mostly from the Southeast | São Paulo state is about 38% of sales; with Rio de Janeiro and Minas Gerais about 63% | Keep seller coverage and delivery performance strongest in these states, and test whether other regions can be grown |
 | Sales are spread across many categories | The top two categories are about 9% each; the top five about 40% | Prioritise stock and seller quality in the leading categories without depending on any single one |
 | Reviews are strong overall, with a few weaker spots | Among categories with at least 100 orders, scores range from 3.63 (office_furniture) to 4.46 (books_general_interest); products with no listed category (2,210 orders) score 3.19 | Investigate the weaker categories and the listings with no category |
