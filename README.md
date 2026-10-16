@@ -8,6 +8,21 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 
 ![dashboard screenshot](screenshot.png)
 
+
+
+
+#### 📊 [Olist Brazilian E-Commerce Sales Dashboard](https://github.com/boakyedwamena-alt/olist-sales-dashboard)
+*Tableau · [Live dashboard](https://public.tableau.com/views/OlistSalesPerformancceDashboard/OlistSalesPerformanceDashboard?:language=en-GB&:display_count=n&:origin=viz_share_link)*
+An interactive dashboard analysing ~100,000 orders from a Brazilian marketplace, covering sales trends, product categories, delivery performance, reviews and geography.
+
+
+
+
+
+
+
+
+
 ## Dashboard contents
 
 - **KPI tiles:** Total Sales (R$ 13,541,713), Total Orders (99,092), Average Review Score (4.1), Repeat Customer Rate (3.1%) and Orders Delivered Late (6.8%), all scoped to Jan 2017-Aug 2018 (the repeat rate counts each customer's orders across all dates)
