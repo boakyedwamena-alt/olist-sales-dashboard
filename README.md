@@ -13,7 +13,7 @@ An interactive Tableau dashboard analysing ~100,000 orders from Olist, a Brazili
 
 #### 📊 [Olist Brazilian E-Commerce Sales Dashboard](https://github.com/boakyedwamena-alt/olist-sales-dashboard)
 *Tableau · [Live dashboard](https://public.tableau.com/views/OlistSalesPerformancceDashboard/OlistSalesPerformanceDashboard?:language=en-GB&:display_count=n&:origin=viz_share_link)*
-An interactive dashboard analysing ~100,000 orders from a Brazilian marketplace, covering sales trends, product categories, delivery performance, reviews and geography.
+
 
 
 
